@@ -1,25 +1,31 @@
-import { Box, Container, Flex, Heading, Link, Text, VStack, HStack, Divider, Stack, Button } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Link, Text, VStack, HStack, Divider, Stack, Button, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
-
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 const Index = () => {
   const [posts, setPosts] = useState([]);
+  const { toggleColorMode } = useColorMode();
+  const bg = useColorModeValue("gray.50", "gray.800");
+  const color = useColorModeValue("black", "white");
 
   useEffect(() => {
     const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
     setPosts(storedPosts);
   }, []);
+
   return (
-    <Container maxW="container.xl" p={0}>
-      <Flex as="nav" bg="gray.800" color="white" p={4} justifyContent="space-between" alignItems="center">
+    <Container maxW="container.xl" p={0} bg={bg} color={color}>
+      <Flex as="nav" bg={useColorModeValue("gray.800", "gray.900")} color="white" p={4} justifyContent="space-between" alignItems="center">
         <Heading as="h1" size="lg">My Blog</Heading>
         <HStack spacing={4}>
           <Link as={RouterLink} to="/" color="white">Home</Link>
           <Link as={RouterLink} to="#" color="white">About</Link>
           <Link as={RouterLink} to="#" color="white">Blog</Link>
           <Link as={RouterLink} to="#" color="white">Contact</Link>
+          <Button onClick={toggleColorMode} colorScheme="teal" size="sm">
+            Toggle {useColorModeValue("Dark", "Light")} Mode
+          </Button>
         </HStack>
       </Flex>
 
@@ -46,7 +52,7 @@ const Index = () => {
           </VStack>
         </Box>
 
-        <Box flex="1" p={4} bg="gray.50">
+        <Box flex="1" p={4} bg={useColorModeValue("gray.50", "gray.700")}>
           <Heading as="h3" size="lg" mb={4}>Recent Posts</Heading>
           <VStack spacing={4} align="stretch">
             <Link href="#">Recent Post 1</Link>
@@ -70,7 +76,7 @@ const Index = () => {
         </Box>
       </Flex>
 
-      <Box as="footer" bg="gray.800" color="white" p={4} mt={8}>
+      <Box as="footer" bg={useColorModeValue("gray.800", "gray.900")} color="white" p={4} mt={8}>
         <Flex justifyContent="space-between" alignItems="center">
           <Text>&copy; 2023 My Blog. All rights reserved.</Text>
           <HStack spacing={4}>
